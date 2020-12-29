@@ -147,7 +147,29 @@ def database_update(website):
 
 
 def database_delete(website):
-    pass
+    try:
+        mydb = mysql.connector.connect(
+            host=hostname,
+            user=username,
+            password=passwordname,
+            database=databasename
+        )
+
+        mycursor = mydb.cursor()
+
+        sql = "DELETE FROM password WHERE (website = '{}' AND id <> 0)".format(
+            website.lower())
+        mycursor.execute(sql)
+
+        mydb.commit()
+
+        print(mycursor.rowcount, "record deleted")
+        mydb.close()
+
+    except:
+        print("Something went wrong: {}".format(err))
+
+    ask()
 
 
 def main():
@@ -203,8 +225,12 @@ def main():
         else:
             ask()
 
-    elif(choice == 'D'):
+    elif(choice == 'D' and database_check(your_website)):
         database_delete(your_website)
+
+    elif(choice == 'D' and not database_check(your_website)):
+        print("No entry exists for this site to delete. Please try again!")
+        ask()
 
 
 main()
