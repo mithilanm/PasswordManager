@@ -2,6 +2,7 @@ import mysql.connector
 import bcrypt
 import sys
 import getpass
+import secrets
 from MasterPassword import *
 
 
@@ -83,9 +84,27 @@ def database_insert(website):
             password=passwordname,
             database=databasename
         )
-
         your_username = input("Enter the username: ")
-        your_password = input("Enter the password: ")
+        choice = ''
+        length = ''
+        while choice not in ['G', 'E']:
+            choice = input(
+                "Would you like to enter a password (E) or generate one for entry (G)? ")
+            if choice not in ['G', 'E']:
+                print("Please enter G or E")
+
+        if choice == 'G':
+            while(length.isnumeric() == False):
+                length = input(
+                    "How long does the password have to be. Please enter a number: ")
+                if(length.isnumeric() == False):
+                    print("Please enter a number!")
+            your_password = gen_password(int(length))
+            print("The generated password is: {}".format(your_password))
+
+        elif choice == 'E':
+            your_password = input("Enter the password: ")
+
         mycursor = mydb.cursor()
 
         sql = "INSERT INTO password (website,username,password) VALUES (%s, %s, %s)"
@@ -101,6 +120,11 @@ def database_insert(website):
         print("Something went wrong: {}".format(err))
 
     ask()
+
+
+def gen_password(length):
+    password = secrets.token_urlsafe(length)
+    return password
 
 
 def database_update(website):
