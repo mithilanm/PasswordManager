@@ -12,7 +12,7 @@ def ask():
         again = input("Again? (Y or N) ")
         if(again not in ['Y', 'N']):
             print("Please enter either Y or N")
-    if(again == 'Y'):
+    if again == 'Y':
         main()
     else:
         sys.exit()
@@ -46,7 +46,7 @@ def database_check(website):
     except:
         print("Something went wrong: {}".format(err))
 
-    if(myresult == []):
+    if myresult == []:
         return False
     else:
         return True
@@ -94,10 +94,10 @@ def database_insert(website):
                 print("Please enter G or E")
 
         if choice == 'G':
-            while(length.isnumeric() == False):
+            while length.isnumeric() == False:
                 length = input(
                     "How long does the password have to be. Please enter a number: ")
-                if(length.isnumeric() == False):
+                if length.isnumeric() == False:
                     print("Please enter a number!")
             your_password = gen_password(int(length))
             print("The generated password is: {}".format(your_password))
@@ -138,7 +138,7 @@ def database_update(website):
         choice = ""
         while choice not in ['username', 'password', 'both']:
             choice = input(
-                "Would you like to update the username, password or both? (Enter username, password or both) ")
+                "Would you like to update the username, password or both?")
             if choice not in ['username', 'password', 'both']:
                 print("Please enter username, password or both!")
         if choice == 'username':
@@ -230,7 +230,7 @@ def main():
                 "This entry already exists. Would you like to update it instead? (Y or N) ")
             if(ask1 not in ['Y', 'N']):
                 print("Please enter either Y or N")
-        if(ask1 == 'Y'):
+        if ask1 == 'Y':
             database_update(your_website)
         else:
             ask()
@@ -244,7 +244,7 @@ def main():
                 "This entry does not exist. Would you like to insert it instead? (Y or N) ")
             if(ask2 not in ['Y', 'N']):
                 print("Please enter either Y or N")
-        if(ask2 == 'Y'):
+        if ask2 == 'Y':
             database_insert(your_website)
         else:
             ask()
